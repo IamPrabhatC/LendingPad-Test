@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "26c5397e-2163-4643-ae23-13c5eb581e25",
+		"_postman_id": "576848f0-32c6-4bd5-adbb-7901698df3e7",
 		"name": "LendingPad-SampleProject",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "30292534"
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "6678279"
 	},
 	"item": [
 		{
@@ -14,18 +14,7 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"url": {
-							"raw": "http://localhost:49834/users/clear",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "49834",
-							"path": [
-								"users",
-								"clear"
-							]
-						}
+						"url": "http://localhost:49834/users/clear"
 					},
 					"response": []
 				},
@@ -43,19 +32,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "http://localhost:49834/users/1422740e-6426-4c46-8445-3f5274a62424/create",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "49834",
-							"path": [
-								"users",
-								"1422740e-6426-4c46-8445-3f5274a62424",
-								"create"
-							]
-						}
+						"url": "http://localhost:49834/users/1422740e-6426-4c46-8445-3f5274a62424/create"
 					},
 					"response": []
 				},
@@ -73,19 +50,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "http://localhost:49834/users/9422740e-6426-4c46-8445-3f5274a62424/create",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "49834",
-							"path": [
-								"users",
-								"9422740e-6426-4c46-8445-3f5274a62424",
-								"create"
-							]
-						}
+						"url": "http://localhost:49834/users/9422740e-6426-4c46-8445-3f5274a62424/create"
 					},
 					"response": []
 				},
@@ -103,19 +68,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "http://localhost:49834/users/8722740e-6426-4c46-8445-3f5274a62424/create",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "49834",
-							"path": [
-								"users",
-								"8722740e-6426-4c46-8445-3f5274a62424",
-								"create"
-							]
-						}
+						"url": "http://localhost:49834/users/8722740e-6426-4c46-8445-3f5274a62424/create"
 					},
 					"response": []
 				}
@@ -138,19 +91,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "http://localhost:49834/users/1422740e-6426-4c46-8445-3f5274a62424/create",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "49834",
-							"path": [
-								"users",
-								"1422740e-6426-4c46-8445-3f5274a62424",
-								"create"
-							]
-						}
+						"url": "http://localhost:49834/users/1422740e-6426-4c46-8445-3f5274a62424/create"
 					},
 					"response": []
 				},
@@ -168,19 +109,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "http://localhost:49834/users/9422740e-6426-4c46-8445-3f5274a62424/update",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "49834",
-							"path": [
-								"users",
-								"9422740e-6426-4c46-8445-3f5274a62424",
-								"update"
-							]
-						}
+						"url": "http://localhost:49834/users/9422740e-6426-4c46-8445-3f5274a62424/update"
 					},
 					"response": []
 				},
@@ -198,19 +127,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "http://localhost:49834/users/9422740e-6426-4c46-8445-3f5274a62424/update",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "49834",
-							"path": [
-								"users",
-								"9422740e-6426-4c46-8445-3f5274a62424",
-								"update"
-							]
-						}
+						"url": "http://localhost:49834/users/9422740e-6426-4c46-8445-3f5274a62424/update"
 					},
 					"response": []
 				},
@@ -228,19 +145,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "http://localhost:49834/users/9422740e-6426-4c46-8445-3f5274a62424/update",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "49834",
-							"path": [
-								"users",
-								"9422740e-6426-4c46-8445-3f5274a62424",
-								"update"
-							]
-						}
+						"url": "http://localhost:49834/users/9422740e-6426-4c46-8445-3f5274a62424/update"
 					},
 					"response": []
 				},
@@ -278,11 +183,175 @@
 			"item": [
 				{
 					"name": "Products",
-					"item": []
+					"item": [
+						{
+							"name": "Create Product",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Name\": \"Product 3\",\r\n    \"Price\": 100.0,\r\n    \"Quantity\": 10\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:49834/api/products/9422740e-6426-4c46-8445-3f5274a61424/create"
+							},
+							"response": []
+						},
+						{
+							"name": "Update Product",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Name\": \"Updated Product24\",\r\n    \"Price\": 150.0,\r\n    \"Quantity\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:49834/api/products/9422740e-6426-4c46-8445-3f5274a61424/update"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Product",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": "http://localhost:49834/api/products/9422740e-6426-4c46-8445-3f5274a61424/delete"
+							},
+							"response": []
+						},
+						{
+							"name": "Get ProductbyId",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:49834/api/products/9422740e-6426-4c46-8445-3f5274a61424"
+							},
+							"response": []
+						},
+						{
+							"name": "GetProducts",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:49834/api/products/list?name=Product 3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "49834",
+									"path": [
+										"api",
+										"products",
+										"list"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Product 3"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				},
 				{
 					"name": "Orders",
-					"item": []
+					"item": [
+						{
+							"name": "CreateOrder",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"productId\": \"9422740e-6426-4c46-8445-3f5274a61424\",\r\n  \"quantity\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:49834/api/orders/9422740e-6426-4c46-8445-3f5274a61494/create"
+							},
+							"response": []
+						},
+						{
+							"name": "UpdateOrder",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Quantity\": 10\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:49834/api/orders/9422740e-6426-4c46-8445-3f5274a61494/update"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Order",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": "http://localhost:49834/api/orders/9422740e-6426-4c46-8445-3f5274a61494/delete"
+							},
+							"response": []
+						},
+						{
+							"name": "Get OrderById",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:49834/api/orders/9422740e-6426-4c46-8445-3f5274a61494"
+							},
+							"response": []
+						},
+						{
+							"name": "GetOrders",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:49834/api/orders/list?orderDate=2025-02-22",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "49834",
+									"path": [
+										"api",
+										"orders",
+										"list"
+									],
+									"query": [
+										{
+											"key": "orderDate",
+											"value": "2025-02-22"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		}
