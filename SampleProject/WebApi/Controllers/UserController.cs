@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using BusinessEntities;
 using Core.Services.Users;
+using Microsoft.Ajax.Utilities;
 using WebApi.Models.Users;
 
 namespace WebApi.Controllers
@@ -28,6 +30,16 @@ namespace WebApi.Controllers
         [HttpPost]
         public HttpResponseMessage CreateUser(Guid userId, [FromBody] UserModel model)
         {
+            if (model == null || userId == Guid.Empty)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid data provided.");
+            }
+            // Check if a user with the same userId already exists
+            var existingUser = _getUserService.GetUser(userId);
+            if (existingUser != null)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.Conflict, $"A user with this userId:{userId} already exists.");
+            }
             var user = _createUserService.Create(userId, model.Name, model.Email, model.Type, model.AnnualSalary, model.Tags);
             return Found(new UserData(user));
         }
@@ -41,8 +53,22 @@ namespace WebApi.Controllers
             {
                 return DoesNotExist();
             }
-            _updateUserService.Update(user, model.Name, model.Email, model.Type, model.AnnualSalary, model.Tags);
-            return Found(new UserData(user));
+
+            try
+            {
+                _updateUserService.Update(user, model.Name, model.Email, model.Type, model.AnnualSalary, model.Tags);
+                return Found (new UserData(user));
+            }
+            catch (ArgumentException ex) // Handle validation errors
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
+            catch (Exception) // Catch unexpected errors
+            {
+                //Ideally, we would log the exception using Illogger or similar for message
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, "An error occurred while updating the user.");
+            }
+            
         }
 
         [Route("{userId:guid}/delete")]
@@ -88,8 +114,9 @@ namespace WebApi.Controllers
         [Route("list/tag")]
         [HttpGet]
         public HttpResponseMessage GetUsersByTag(string tag)
-        {
-            throw new NotImplementedException();
+        {            
+            var users = _getUserService.GetUsers(tag: tag);
+            return Found(users);
         }
     }
 }

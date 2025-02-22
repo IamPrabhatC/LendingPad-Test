@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using BusinessEntities;
 
 namespace Data.Repositories
@@ -7,6 +8,7 @@ namespace Data.Repositories
     {
         void Save(T entity);
         void Delete(T entity);
+        IEnumerable<T> GetAll();
         T Get(Guid id);
     }
 }

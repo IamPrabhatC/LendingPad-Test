@@ -34,6 +34,12 @@ namespace Data.Repositories
             return _documentSession.Load<T>(id);
         }
 
+        // Optionally retrieve all entities (if supported by your DB)
+        public IEnumerable<T> GetAll()
+        {
+            return _documentSession.Query<T>().ToList();
+        }
+
         protected void DeleteAll<TIndex>() where TIndex : AbstractIndexCreationTask<T>
         {
             _documentSession.Advanced.DocumentStore.DatabaseCommands.DeleteByIndex(typeof(TIndex).Name, new IndexQuery());
