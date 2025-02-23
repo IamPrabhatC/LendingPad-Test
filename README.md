@@ -14,3 +14,6 @@ For each created entity, the following Web API methods have been implemented:
 * Delete
 * Get by ID
 * Get a list with filters
+
+#Note
+First create the Product using the Postman and then create the Order using the ProductId created in earlier request.
