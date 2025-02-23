@@ -1,14 +1,10 @@
 ﻿using Core.Services.Orders;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
 using WebApi.Models.Orders;
-using BusinessEntities;
 
 namespace WebApi.Controllers
 {
@@ -17,12 +13,18 @@ namespace WebApi.Controllers
     /// </summary>
     [RoutePrefix("api/orders")]
     public class OrderController : ApiController
-    {
-        private readonly IOrderService _orderService;
+    {      
+        private readonly ICreateOrderService _createOrderService;
+        private readonly IUpdateOrderService _updateOrderService;
+        private readonly IDeleteOrderService _deleteOrderService;
+        private readonly IGetOrderService _getOrderService;
 
-        public OrderController(IOrderService orderService)
+        public OrderController(ICreateOrderService createOrderService, IUpdateOrderService updateOrderService, IDeleteOrderService deleteOrderService, IGetOrderService getOrderService)
         {
-            _orderService = orderService;
+            _createOrderService = createOrderService;
+            _updateOrderService = updateOrderService;
+            _deleteOrderService = deleteOrderService;
+            _getOrderService = getOrderService;
         }
 
         /// <summary>
@@ -43,14 +45,14 @@ namespace WebApi.Controllers
             try
             {
                 // Check if the order with the given ID already exists
-                var existingOrder = await _orderService.GetOrderByIdAsync(orderId);
+                var existingOrder = await _getOrderService.GetOrderByIdAsync(orderId);
                 if (existingOrder != null)
                 {
                     // Return conflict status if the order already exists
                     return Request.CreateErrorResponse(HttpStatusCode.Conflict, $"Order with the given ID:{orderId} already exists.");
                 }
 
-                var order = await _orderService.CreateAsync(orderId, model.ProductId, model.Quantity);
+                var order = await _createOrderService.CreateAsync(orderId, model.ProductId, model.Quantity);
                 return Request.CreateResponse(HttpStatusCode.Created, order);
             }
             catch (ArgumentException ex)
@@ -83,14 +85,14 @@ namespace WebApi.Controllers
             try
             {
                 // Check if the order with the given ID already exists
-                var existingOrder = await _orderService.GetOrderByIdAsync(id);
+                var existingOrder = await _getOrderService.GetOrderByIdAsync(id);
                 if (existingOrder == null)
                 {
                     // Return NotFound status if the order doesn't exist
                     return Request.CreateErrorResponse(HttpStatusCode.NotFound, $"Order with the given ID:{id} doesnt exists.");
                 }
 
-                var order = await _orderService.UpdateAsync(id, model.Quantity);
+                var order = await _updateOrderService.UpdateAsync(id, model.Quantity);
                 return Request.CreateResponse(HttpStatusCode.OK, order);
             }
             catch (ArgumentException ex)
@@ -115,13 +117,13 @@ namespace WebApi.Controllers
         public async Task<HttpResponseMessage> DeleteOrder(Guid id)
         {
             // Check if the order with the given ID already exists
-            var existingOrder = await _orderService.GetOrderByIdAsync(id);
+            var existingOrder = await _getOrderService.GetOrderByIdAsync(id);
             if (existingOrder == null)
             {
                 // Return NotFound status if the order doesn't exist
                 return Request.CreateErrorResponse(HttpStatusCode.NotFound, $"Order with the given ID:{id} doesnt exists.");
             }
-            await _orderService.DeleteAsync(id);
+            await _deleteOrderService.DeleteAsync(id);
             return Request.CreateResponse(HttpStatusCode.NoContent);
         }
 
@@ -134,7 +136,7 @@ namespace WebApi.Controllers
         [Route("{id:guid}")]
         public async Task<HttpResponseMessage> GetOrder(Guid id)
         {
-            var order = await _orderService.GetOrderByIdAsync(id);
+            var order = await _getOrderService.GetOrderByIdAsync(id);
             if (order == null)
                 return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Order not found.");
 
@@ -152,7 +154,7 @@ namespace WebApi.Controllers
         [Route("list")]
         public async Task<HttpResponseMessage> GetOrders(Guid? productId = null, int? quantity = null, DateTime? orderDate = null)
         {
-            var orders = await _orderService.GetOrders(productId: productId,quantity: quantity, orderDate: orderDate);
+            var orders = await _getOrderService.GetOrders(productId: productId,quantity: quantity, orderDate: orderDate);
             return Request.CreateResponse(HttpStatusCode.OK, orders);
         }
     }

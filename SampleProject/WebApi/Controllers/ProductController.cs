@@ -15,11 +15,18 @@ namespace WebApi.Controllers
     [RoutePrefix("api/products")]
     public class ProductController : ApiController
     {
-        private readonly IProductService _productService;
+        private readonly ICreateProductService _createProductService;
+        private readonly IUpdateProductService _updateProductService;
+        private readonly IDeleteProductService _deleteProductService;
+        private readonly IGetProductService _getProductService;
 
-        public ProductController(IProductService productService)
+        public ProductController(ICreateProductService createProductService, IUpdateProductService updateProductService,
+            IDeleteProductService deleteProductService, IGetProductService getProductService)
         {
-            _productService = productService;
+            _createProductService = createProductService;
+            _updateProductService = updateProductService;
+            _deleteProductService = deleteProductService;
+            _getProductService = getProductService;
         }
 
         /// <summary>
@@ -40,14 +47,14 @@ namespace WebApi.Controllers
             try
             {
                 // Check if the product with the given ID already exists
-                var existingProduct = await _productService.GetProductByIdAsync(productId);
+                var existingProduct = await _getProductService.GetProductByIdAsync(productId);
                 if (existingProduct != null)
                 {
                     // Return conflict status if the product already exists
                     return Request.CreateErrorResponse(HttpStatusCode.Conflict, "Product with the given ID already exists.");
                 }
 
-                var product = await _productService.CreateAsync(productId, model.Name, model.Price, model.Quantity);
+                var product = await _createProductService.CreateAsync(productId, model.Name, model.Price, model.Quantity);
                 return Request.CreateResponse(HttpStatusCode.Created, product);
             }
             catch (ArgumentException ex)
@@ -80,14 +87,14 @@ namespace WebApi.Controllers
             try
             {
                 // Check if the product with the given ID already exists
-                var existingProduct = await _productService.GetProductByIdAsync(productId);
+                var existingProduct = await _getProductService.GetProductByIdAsync(productId);
                 if (existingProduct == null)
                 {
                     // Return NotFound status if the product doesn't exist
                     return Request.CreateErrorResponse(HttpStatusCode.NotFound, $"Product with the given ID:{productId} doesnt exists.");
                 }
                 // Update the product
-                var updatedProduct = await _productService.UpdateAsync(productId, model.Name, model.Price, model.Quantity);
+                var updatedProduct = await _updateProductService.UpdateAsync(productId, model.Name, model.Price, model.Quantity);
 
                 // Return success response
                 return Request.CreateResponse(HttpStatusCode.OK, updatedProduct);
@@ -114,13 +121,13 @@ namespace WebApi.Controllers
         public async Task<HttpResponseMessage> DeleteProduct(Guid id)
         {
             // Check if the product with the given ID already exists
-            var existingProduct = await _productService.GetProductByIdAsync(id);
+            var existingProduct = await _getProductService.GetProductByIdAsync(id);
             if (existingProduct == null)
             {
                 // Return NotFound status if the product doesn't exist
                 return Request.CreateErrorResponse(HttpStatusCode.NotFound, $"Product with the given ID:{id} doesnt exists.");
             }
-            await _productService.DeleteAsync(id);
+            await _deleteProductService.DeleteAsync(id);
             return Request.CreateResponse(HttpStatusCode.NoContent);
         }
 
@@ -133,7 +140,7 @@ namespace WebApi.Controllers
         [Route("{id:guid}")]
         public async Task<HttpResponseMessage> GetProduct(Guid id)
         {
-            var product = await _productService.GetProductByIdAsync(id);        
+            var product = await _getProductService.GetProductByIdAsync(id);        
 
             return Request.CreateResponse(HttpStatusCode.OK, product);
         }
@@ -149,7 +156,7 @@ namespace WebApi.Controllers
         [Route("list")]
         public async Task<HttpResponseMessage> GetProducts(string name = null, decimal? price = null,  int? quantity = null)
         {
-            var products = await _productService.GetProducts(name:name, price: price, quantity: quantity);
+            var products = await _getProductService.GetProducts(name:name, price: price, quantity: quantity);
 
             return Request.CreateResponse(HttpStatusCode.OK, products);
         }
